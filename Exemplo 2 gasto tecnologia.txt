@@ -1,0 +1,39 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+# Dados simulados
+np.random.seed(42)
+
+# Tamanhos das amostras
+n_amostra = 100
+
+# Geração de dados fictícios
+renda = np.random.randint(2000, 15000, size=n_amostra)  # Renda mensal em R$
+gasto_tecnologia = renda * np.random.uniform(0.05, 0.20, size=n_amostra)  # Gasto médio em produtos de tecnologia
+nivel_educacional = np.random.choice(['Ensino Médio', 'Ensino Superior', 'Pós-Graduação'], size=n_amostra)
+
+# Criar DataFrame com os dados
+df = pd.DataFrame({
+    'Renda': renda,
+    'GastoTecnologia': gasto_tecnologia,
+    'NivelEducacional': nivel_educacional
+})
+
+# Visualizando os primeiros registros do DataFrame
+print(df.head())
+
+# Configuração do gráfico
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x='Renda', y='GastoTecnologia', hue='NivelEducacional', palette='Set2')
+
+# Título e rótulos
+plt.title('Gasto em Tecnologia por Renda e Nível Educacional', fontsize=16)
+plt.xlabel('Renda Mensal (R$)', fontsize=12)
+plt.ylabel('Gasto em Produtos de Tecnologia (R$)', fontsize=12)
+plt.grid(True)
+plt.legend(title='Nível Educacional')
+
+# Mostrar o gráfico
+plt.show()

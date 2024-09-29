@@ -1,0 +1,54 @@
+import numpy as np
+import pandas as pd
+
+# Definindo o tamanho da população
+populacao_size = 10000
+
+# Definindo as variáveis qualitativas e quantitativas para a população
+np.random.seed(42)  # Para reproduzir resultados
+
+# Variável Qualitativa Nominal: Gênero (Masculino, Feminino)
+generos = np.random.choice(['Masculino', 'Feminino'], size=populacao_size, p=[0.48, 0.52])
+
+# Variável Qualitativa Ordinal: Nível de Atividade Física (Baixo, Médio, Alto)
+nivel_atividade_fisica = np.random.choice(['Baixo', 'Médio', 'Alto'], size=populacao_size, p=[0.3, 0.5, 0.2])
+
+# Variável Quantitativa Discreta: Frequência semanal de exercício (0 a 7 dias)
+frequencia_exercicio = np.random.randint(0, 8, size=populacao_size)
+
+# Variável Quantitativa Contínua: Tempo médio de exercício por sessão (minutos)
+tempo_exercicio = np.round(np.random.normal(loc=45, scale=15, size=populacao_size), 1)  # Média 45 min com desvio padrão de 15 min
+
+# Criando o DataFrame com a população
+df_populacao = pd.DataFrame({
+    'Genero': generos,
+    'Nivel_Atividade_Fisica': nivel_atividade_fisica,
+    'Frequencia_Exercicio': frequencia_exercicio,
+    'Tempo_Exercicio': tempo_exercicio
+})
+
+# Visualizando as primeiras linhas da população
+print("População - Primeiras linhas:")
+print(df_populacao.head())
+
+# Gerando uma Amostra Aleatória de 500 pessoas
+amostra = df_populacao.sample(n=500, random_state=42)
+
+print("\nAmostra - Primeiras linhas:")
+print(amostra.head())
+
+# Estatísticas Descritivas para a Amostra
+
+# Variáveis Qualitativas (Distribuição de Frequência)
+print("\nDistribuição de Gênero na Amostra:")
+print(amostra['Genero'].value_counts())
+
+print("\nDistribuição de Nível de Atividade Física na Amostra:")
+print(amostra['Nivel_Atividade_Fisica'].value_counts())
+
+# Variáveis Quantitativas (Média, Desvio Padrão, Mínimo e Máximo)
+print("\nEstatísticas da Frequência Semanal de Exercício (dias):")
+print(amostra['Frequencia_Exercicio'].describe())
+
+print("\nEstatísticas do Tempo Médio de Exercício por Sessão (minutos):")
+print(amostra['Tempo_Exercicio'].describe())

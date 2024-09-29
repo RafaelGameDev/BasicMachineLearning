@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Gerar dados simulados
+np.random.seed(42)
+usuarios = np.arange(1, 101)  # IDs dos usuários de 1 a 100
+paginas = ['Home', 'Produto', 'Carrinho', 'Pagamento', 'Contato']
+tempo_gasto = np.random.uniform(1, 10, size=100)  # Tempo gasto em minutos
+pagina_visitada = np.random.choice(paginas, size=100)
+compra_realizada = np.random.choice([True, False], size=100)  # Se houve compra ou não
+
+# Criar DataFrame com os dados
+df_observacao = pd.DataFrame({
+    "Usuario ID": usuarios,
+    "Pagina Visitada": pagina_visitada,
+    "Tempo Gasto (min)": tempo_gasto,
+    "Compra Realizada": compra_realizada
+})
+
+# Exibir as primeiras linhas do DataFrame
+print(df_observacao.head())
+
+# Visualizar a relação entre a página visitada e a compra realizada
+plt.figure(figsize=(10, 6))
+sns.countplot(x='Pagina Visitada', hue='Compra Realizada', data=df_observacao, palette="Set2")
+
+# Títulos e rótulos
+plt.title('Número de Compras Realizadas por Página Visitada', fontsize=16)
+plt.xlabel('Página Visitada', fontsize=12)
+plt.ylabel('Número de Usuários', fontsize=12)
+plt.legend(title='Compra Realizada', loc='upper right')
+
+# Mostrar o gráfico
+plt.show()

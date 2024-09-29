@@ -1,0 +1,37 @@
+import numpy as np
+import pandas as pd
+
+# Definir as páginas do site
+paginas = ['Home', 'Produto', 'Carrinho', 'Pagamento', 'Contato']
+
+# Simular 10 usuários e o tempo gasto (em minutos) por página
+np.random.seed(42)
+usuarios = np.arange(1, 11)  # IDs dos usuários de 1 a 10
+dados_usuarios = []
+
+# Simular tempo gasto por cada usuário em cada página
+for usuario in usuarios:
+    tempos_gastos = np.random.uniform(1, 10, size=len(paginas))
+    for i, pagina in enumerate(paginas):
+        dados_usuarios.append([usuario, pagina, tempos_gastos[i]])
+
+# Criar um DataFrame com os dados coletados
+df_observacao = pd.DataFrame(dados_usuarios, columns=["Usuario ID", "Pagina Visitada", "Tempo Gasto (min)"])
+
+# Exibir os primeiros dados observados
+print("Dados Observados:")
+print(df_observacao.head(10))
+
+# Calcular o tempo médio gasto em cada página
+tempo_medio_paginas = df_observacao.groupby('Pagina Visitada')['Tempo Gasto (min)'].mean()
+
+# Exibir os resultados
+print("\nTempo médio gasto em cada página:")
+print(tempo_medio_paginas)
+
+# Identificar a página com maior e menor tempo de permanência
+pagina_mais_tempo = tempo_medio_paginas.idxmax()
+pagina_menos_tempo = tempo_medio_paginas.idxmin()
+
+print(f"\nPágina com maior tempo de permanência: {pagina_mais_tempo}")
+print(f"Página com menor tempo de permanência: {pagina_menos_tempo}")

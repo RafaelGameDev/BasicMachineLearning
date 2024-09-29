@@ -1,0 +1,14 @@
+import numpy as np
+import scipy.stats as stats
+
+# Dados simulados de renda mensal (em R$)
+renda_amostra = np.random.normal(loc=3500, scale=1200, size=500)  # Média de R$ 3500, desvio padrão de R$ 1200
+
+# Calcular a média e o intervalo de confiança (95%)
+media_renda = np.mean(renda_amostra)
+desvio_padrao_renda = np.std(renda_amostra, ddof=1)
+intervalo_conf = stats.norm.interval(0.95, loc=media_renda, scale=desvio_padrao_renda/np.sqrt(len(renda_amostra)))
+
+# Exibir os resultados
+print(f"Média estimada da renda mensal: R$ {media_renda:.2f}")
+print(f"Intervalo de confiança de 95%: R$ {intervalo_conf[0]:.2f} a R$ {intervalo_conf[1]:.2f}")

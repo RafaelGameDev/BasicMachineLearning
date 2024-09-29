@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Exemplo: Gráfico de dispersão (scatter plot) mostrando uma relação positiva entre duas variáveis fictícias
+
+# Dados fictícios
+np.random.seed(0)
+x = np.random.rand(50) * 10  # 50 valores aleatórios para a variável X
+y = 2.5 * x + np.random.randn(50) * 3  # Relação linear com um pouco de ruído para a variável Y
+
+# Criando o gráfico
+plt.figure(figsize=(8, 5))
+plt.scatter(x, y, color='blue', alpha=0.6, label='Dados')
+
+# Adicionando títulos e rótulos
+plt.title('Exemplo de Gráfico de Dispersão: Relação entre X e Y', fontsize=14)
+plt.xlabel('Variável X')
+plt.ylabel('Variável Y')
+
+# Adicionando uma linha de tendência (regressão linear simples)
+m, b = np.polyfit(x, y, 1)  # Coeficiente angular e intercepto
+plt.plot(x, m*x + b, color='red', label=f'Tendência: Y = {m:.2f}X + {b:.2f}', linewidth=2)
+
+# Exibindo a legenda
+plt.legend()
+
+# Mostrando o gráfico
+plt.grid(True)
+plt.tight_layout()
+plt.show()

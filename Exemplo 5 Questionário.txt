@@ -1,0 +1,32 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Defina o caminho do arquivo CSV (modifique conforme o caminho no seu Google Drive)
+csv_path = '/content/drive/My Drive/DataScience/questionario_satisfacao.csv'
+
+# Ler o arquivo CSV
+df = pd.read_csv(csv_path)
+
+# Exibir as primeiras linhas do DataFrame
+print(df.head())
+
+# Calcular a média de facilidade de uso
+media_facilidade = df['Facilidade de Uso (1 a 5)'].mean()
+print(f"Média de Facilidade de Uso: {media_facilidade:.2f}")
+
+# Contar as frequências das notas (1 a 5)
+frequencias = df['Facilidade de Uso (1 a 5)'].value_counts().sort_index()
+
+# Configuração do gráfico de barras
+plt.figure(figsize=(8, 6))
+sns.barplot(x=frequencias.index, y=frequencias.values, palette="Blues_d")
+
+# Títulos e rótulos
+plt.title('Distribuição das Notas de Facilidade de Uso', fontsize=16)
+plt.xlabel('Facilidade de Uso (1 a 5)', fontsize=12)
+plt.ylabel('Número de Clientes', fontsize=12)
+plt.grid(True)
+
+# Exibir o gráfico
+plt.show()

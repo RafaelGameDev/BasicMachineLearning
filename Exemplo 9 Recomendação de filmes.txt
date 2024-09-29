@@ -1,0 +1,71 @@
+# Instalar a biblioteca Surprise
+# pip install scikit-surprise
+
+from surprise import Dataset, Reader
+from surprise.model_selection import train_test_split
+from surprise import SVD
+from surprise import accuracy
+from surprise.model_selection import cross_validate
+from surprise import KNNBasic
+
+# Exemplo simples de dados de avaliações de filmes
+# (usuário_id, filme_id, avaliação)
+data_dict = {
+    "user_id": [1, 1, 1, 2, 2, 3, 3, 3, 4, 4],
+    "item_id": [101, 102, 103, 101, 104, 101, 102, 103, 103, 104],
+    "rating": [4, 5, 3, 4, 2, 5, 4, 2, 4, 5],
+}
+
+# Criando DataFrame com Pandas
+import pandas as pd
+df = pd.DataFrame(data_dict)
+
+# Definindo o formato dos dados (usuário, item, avaliação)
+reader = Reader(rating_scale=(1, 5))
+data = Dataset.load_from_df(df[["user_id", "item_id", "rating"]], reader)
+
+# Separando os dados em treino e teste
+trainset, testset = train_test_split(data, test_size=0.25)
+
+# Utilizando o algoritmo SVD para Filtragem Colaborativa
+model = SVD()
+
+# Treinando o modelo com os dados de treino
+model.fit(trainset)
+
+# Avaliando o modelo com os dados de teste
+predictions = model.test(testset)
+accuracy.rmse(predictions)
+
+# Prevendo a avaliação de um usuário para um filme
+# Exemplo: Prever a avaliação do usuário 3 para o filme 104
+uid = str(3)  # ID do usuário
+iid = str(104)  # ID do filme
+
+pred = model.predict(uid, iid, r_ui=None, verbose=True)
+
+# Fazendo recomendações para um usuário
+def get_top_n_recommendations(predictions, n=3):
+    """Retorna os top-n filmes recomendados para cada usuário"""
+    from collections import defaultdict
+    top_n = defaultdict(list)
+    
+    # Adicionando as predições ordenadas
+    for uid, iid, true_r, est, _ in predictions:
+        top_n[uid].append((iid, est))
+    
+    # Ordenar as recomendações e retornar os top-n
+    for uid, user_ratings in top_n.items():
+        user_ratings.sort(key=lambda x: x[1], reverse=True)
+        top_n[uid] = user_ratings[:n]
+    
+    return top_n
+
+# Gerando as recomendações para todos os usuários
+top_n = get_top_n_recommendations(predictions, n=2)
+
+# Exibindo as recomendações
+for uid, user_ratings in top_n.items():
+    print(f"Recomendações para o usuário {uid}:")
+    for iid, est_rating in user_ratings:
+        print(f"Filme {iid}: avaliação estimada {est_rating:.2f}")

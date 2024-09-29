@@ -1,0 +1,18 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Dados simulados de idades (resultado do censo)
+idades = np.random.normal(loc=35, scale=10, size=1000)  # Média de 35 anos com desvio padrão de 10
+
+# Configuração do histograma para visualizar a distribuição etária
+plt.figure(figsize=(8, 6))
+plt.hist(idades, bins=20, color='skyblue', edgecolor='black')
+
+# Títulos e rótulos
+plt.title('Distribuição Etária da População (Censo)', fontsize=14)
+plt.xlabel('Idade', fontsize=12)
+plt.ylabel('Número de Pessoas', fontsize=12)
+plt.grid(True)
+
+# Mostrar o gráfico
+plt.show()
